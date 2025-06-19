@@ -7,11 +7,14 @@
 ⚡ Ngrok (for global/local testing)
 
 How to Run Locally
-✅ Prerequisites
 Java 17+
 Maven
 MongoDB (installed or running locally on localhost:27017)
 (Optional) Ngrok for external API testing
+
+MongoDB Collections
+1. operator
+2. traffic_light
 
 🔐 API Endpoints 
 Method	        Endpoint	                           Description
