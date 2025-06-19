@@ -1,0 +1,22 @@
+📁 Technologies Used
+🧠 Spring Boot 3+
+🧾 MongoDB (via Spring Data MongoDB)
+🌐 RESTful APIs
+🔐 Postman (for testing endpoints)
+📘 Swagger/OpenAPI (for documentation)
+⚡ Ngrok (for global/local testing)
+
+How to Run Locally
+✅ Prerequisites
+Java 17+
+Maven
+MongoDB (installed or running locally on localhost:27017)
+(Optional) Ngrok for external API testing
+
+🔐 API Endpoints 
+Method	        Endpoint	                           Description
+POST	  /api/operators/login	                   Operator login with ID & password
+GET	/api/operators/operator/login-info/{id}	    Fetch operator ID and password
+GET	/api/traffic-lights/info/{lightId}          Get location, current status, weight
+PUT	/api/traffic-lights/update-status	          Update current status of light
+GET	/swagger-ui/index.html	Swagger             documentation UI
