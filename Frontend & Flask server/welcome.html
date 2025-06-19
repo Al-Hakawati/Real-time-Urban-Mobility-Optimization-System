@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Vision Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylle.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="logo-container">
+                <div class="vision-logo">
+                    <div class="ai-core"></div>
+                </div>
+                <h1>TRAFFIC VISION</h1>
+            </div>
+            <div class="operator-info">
+                <div class="info-card">
+                    <span class="info-label">Operator ID</span>
+                    <span id="operatorid" class="info-value">Loading...</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Username</span>
+                    <span id="operatorname" class="info-value">Loading...</span>
+                </div>
+                
+            </div>
+        </header>
+        
+
+            
+            <section class="controls-section">
+               
+                <div class="intersection-grid">
+                    
+                    <div class="intersection-card">
+                        <div class="card-header">
+                            <p class="location">Location: <span id="l" class="info-value">Loading...</span></p>
+                            
+                        </div>
+                        <p class="location">Current Status: <span id="st" class="info-value">Loading...</span></p>
+                        
+                        
+                        <div class="traffic-status">
+                            
+                        </div>
+                        <div class="traffic-metrics">
+                            <div class="metric">
+                                <span>Average Area Volume</span>
+                                <span id="k" class="info-value">Loading...</span>
+                            </div>
+                            <div class="metric">
+                                <span>Nmber Of Waiting Vehicles</span>
+                                <span id="w" class="info-value">Loading...</span>
+                            </div>
+                            <div class="metric">
+                                <span>Average Area Speed</span>
+                                <span id="r" class="info-value">Loading...</span>
+                            </div>
+                            <div class="metric">
+                                <span>Average Area Waiting Time</span>
+                                <span id="o" class="info-value">Loading...</span>
+                            </div>
+                            
+                        </div>
+                        <div class="id-selector">
+    <label>Traffic‑light ID
+        <input type="text" id="tlInput" placeholder="ID">
+    </label>
+    <button onclick="loadTrafficFromInput()">Load</button>
+</div>
+                    </div>
+
+                    
+                    
+                </div>
+            </section>
+        </main>
+    </div>
+
+    
+    <script>
+
+async function loadOperator() {
+    try {
+        const res = await fetch("/operator-info");
+        const d   = await res.json();
+        operatorname.textContent = d.name  ?? "—";
+        operatorid.textContent   = d.operatorId ?? "—";
+    } catch (err) {
+        console.error(err);
+        operatorname.textContent = operatorid.textContent = "Error";
+    }
+}
+
+async function loadTraffic(id = "6441582236") {
+    try {
+        const res = await fetch(`/traffic-info/${id}`);
+        const d   = await res.json();
+
+        if (res.status === 404) { alert(`${id} not found`); return; }
+        if (!res.ok) throw new Error(d.error || `Server ${res.status}`);
+
+        l.textContent  = d.location ?? "—";
+        st.textContent = d.currentStatus ?? "—";
+        w.textContent  = d.numberOfWaitingVehicles ?? "—";
+        r.textContent  = d.averageAreaSpeed ?? "—";
+        k.textContent  = d.averageAreaVolume ?? "—";
+        o.textContent  = d.averageAreaWaitingTime ?? "—";
+    } catch (err) {
+        console.error(err);
+        l.textContent  = st.textContent = w.textContent =
+        r.textContent  = k.textContent = o.textContent = "Error";
+    }
+}
+
+function loadTrafficFromInput() {
+    const id = tlInput.value.trim();
+    if (id) loadTraffic(id);
+}
+
+loadOperator();
+loadTraffic();
+</script>
+</body>
+</html>
